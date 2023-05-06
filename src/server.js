@@ -1,14 +1,24 @@
 import http from 'node:http'
 
+const users = []
+
 const server = http.createServer((req, res) => {
   const { method, url } = req
 
   if (method === 'GET' && url === '/users') {
-    return res.end('Listagem de usuarios')
+    return res
+      .setHeader('Content-type', 'application/json')
+      .end(JSON.stringify(users))
   }
 
   if (method === 'POST' && url === '/users') {
-    return res.end('Criacao de usuarios')
+    users.push({
+      id: 1,
+      name: 'Logan',
+      email: 'logan@mail.com'
+    })
+
+    return res.end('User created')
   }
 
   return res.end('Welcome to API')
